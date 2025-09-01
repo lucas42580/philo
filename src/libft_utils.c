@@ -6,25 +6,11 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:40:19 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/08/28 17:09:22 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:18:00 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-int	handle_error(char *str, t_phidata *philo, int err)
-{
-	int	i;
-
-	i = 0;
-	if (philo != NULL)
-	{
-		if (philo->data)
-			free(philo->data);
-	}
-	ft_putstr_fd(str, 2);
-	return (err);
-}
 
 int	ft_strlen(const char *str)
 {
@@ -94,8 +80,8 @@ int	ft_atoi(const char *nptr)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char *tab;
-	size_t i;
+	char	*tab;
+	size_t	i;
 
 	i = 0;
 	if (nmemb == 0 || size == 0)

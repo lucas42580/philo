@@ -6,7 +6,7 @@
 #    By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 13:12:14 by lpaysant          #+#    #+#              #
-#    Updated: 2025/08/28 17:06:20 by lpaysant         ###   ########.fr        #
+#    Updated: 2025/09/01 13:54:08 by lpaysant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,11 @@ SRCDIR = ./src
 
 SRC = \
 	$(SRCDIR)/main.c \
-	$(SRCDIR)/philo_utils.c
+	$(SRCDIR)/libft_utils.c \
+	$(SRCDIR)/free_utils.c \
+	$(SRCDIR)/time_utils.c \
+	$(SRCDIR)/init.c \
+	$(SRCDIR)/parsing.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
