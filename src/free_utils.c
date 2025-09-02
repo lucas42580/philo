@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:15:57 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/01 14:36:49 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:34:04 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void	free_datas(t_phidata *philo, int nbphilo)
 	i = 0;
 	while (i < nbphilo)
 	{
-		free(philo[i].data);
+		if (philo[i].data)
+		{
+			free(philo[i].data);
+			philo[i].data = NULL;
+		}
 		i++;
 	}
 }
@@ -43,12 +47,14 @@ void	free_philos(t_phidata *philo, int nbphilo)
 	int	i;
 
 	i = 0;
-	free_datas(philo, nbphilo);
+	// free_datas(philo, nbphilo);
+	free(philo->data);
 	while (i < nbphilo)
 	{
 		mutex_destroyer(&philo[i], 4);
 		i++;
 	}
+	free(philo);
 }
 
 int	mutex_destroyer(t_phidata *philo, int i)

@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/01 16:06:11 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:15:02 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,12 @@ int	mutex_init(t_phidata *philo)
 	return (0);
 }
 
-int	init_philo(t_phidata *philo, char **argv, int i)
+int	init_philo(t_phidata *philo, int i)
 {
 	philo[i].id = i + 1;
 	philo[i].leftfork = 1;
 	philo[i].rightfork = 0;
 	// philo->data = NULL;
-	if (get_data(argv, &philo[i]) == -1)
-	{
-		free_datas(philo, i);
-		return (-1);
-	}
 	if (mutex_init(philo) == -1)
 	{
 		free_philos(philo, i);
@@ -48,43 +43,52 @@ int	init_philo(t_phidata *philo, char **argv, int i)
 	return (0);
 }
 
-int	get_data(char **argv, t_phidata *philo)
+t_data	*get_data(char **argv)
 {
-	philo->data = ft_calloc(1, sizeof(t_data));
-	if (!philo->data)
+	t_data	*data;
+
+	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
 	{
 		handle_error("[Error] : Malloc failure\n", NULL, 2);
-		return (-1);
+		return (NULL);
 	}
-	philo->data->begin = 0;
-	philo->data->nbphilo = ft_atoi(argv[1]);
-	philo->data->ttdie = ft_atoi(argv[2]);
-	philo->data->tteat = ft_atoi(argv[3]);
-	philo->data->ttsleep = ft_atoi(argv[4]);
+	data->start_time = 0;
+	data->nbphilo = ft_atoi(argv[1]);
+	data->ttdie = ft_atoi(argv[2]);
+	data->tteat = ft_atoi(argv[3]);
+	data->ttsleep = ft_atoi(argv[4]);
 	if (argv[5])
-		philo->data->maxmeal = ft_atoi(argv[5]);
+		data->maxmeal = ft_atoi(argv[5]);
 	else
-		philo->data->maxmeal = 0;
-	if (philo->data->nbphilo % 2 == 0)
-		philo->data->is_even = 1;
+		data->maxmeal = 0;
+	if (data->nbphilo % 2 == 0)
+		data->is_even = 1;
 	else
-		philo->data->is_even = 0;
-	return (0);
+		data->is_even = 0;
+	return (data);
 }
 
-int	init_loop(t_phidata *philo, char **argv)
+int	init_loop(t_phidata *philo, t_data *data, char **argv)
 {
-	int				i;
-	struct timeval	start;
+	int	i;
 
+	// struct timeval	start;
+	// long			start_time;
 	i = 0;
-	gettimeofday(&start, NULL);
 	while (i < ft_atoi(argv[1]))
 	{
-		if (init_philo(philo, argv, i) == -1)
+		if (init_philo(philo, i) == -1)
 			return (-1);
-		printf("philo number %d about to be created\n", philo[i].id);
-		philo[i].data->begin = get_time_ms(start);
+		philo[i].data = data;
+		i++;
+	}
+	i = 0;
+	// gettimeofday(&start, NULL);
+	// start_time = get_time_ms(start);
+	while (i < ft_atoi(argv[1]))
+	{
+		// philo[i].data->start_time = start_time;
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 			return (handle_error("[Error] : phtread_create crashed\n", philo,
 					-1));
