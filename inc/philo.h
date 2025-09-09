@@ -6,30 +6,24 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:41:58 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/02 13:32:06 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:06:53 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <pthread.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
 
-typedef enum e_fork
-{
-	LEFT,
-	RIGHT
-}							t_fork;
-
 typedef enum e_status
 {
-	THINK,
+	GO,
 	EAT,
-	SLEEP,
-	DEAD
+	STOP
 }							t_status;
 typedef struct s_data		t_data;
 typedef struct s_phidata	t_phidata;
@@ -43,31 +37,30 @@ typedef struct s_data
 	int						tteat;
 	int						ttsleep;
 	int						maxmeal;
+	int						state;
+	pthread_mutex_t			start_mutex;
+	pthread_mutex_t			state_mutex;
+	pthread_mutex_t			print_mutex;
 }							t_data;
 typedef struct s_phidata
 {
 	pthread_t				thread;
 	int						id;
 	int						nbmeal;
-	int						state;
 	long					lastmeal;
 	int						leftfork;
-	int						rightfork;
-	pthread_mutex_t			print_mutex;
-	pthread_mutex_t			lastmeal_mutex;
-	pthread_mutex_t			nbmeal_mutex;
-	pthread_mutex_t			state_mutex;
+	int						*rightfork;
+	pthread_mutex_t			meal_mutex;
 	pthread_mutex_t			leftfork_mutex;
-	pthread_mutex_t			rightfork_mutex;
+	pthread_mutex_t			*rightfork_mutex;
 	t_data					*data;
 }							t_phidata;
 
 int							main(int argc, char **argv);
 t_data						*get_data(char **argv);
-int							init_loop(t_phidata *philo, t_data *data,
-								char **argv);
+int							init_loop(t_phidata *philo, t_data *data);
 int							init_philo(t_phidata *philo, int i);
-int							mutex_init(t_phidata *philo);
+int							mutex_init(t_phidata *philo, int i);
 int							check_arg(char **argv);
 
 int							ft_atoi(const char *nptr);
@@ -82,3 +75,4 @@ long						get_duration(struct timeval start,
 long						get_time_ms(struct timeval time);
 void						free_datas(t_phidata *philo, int nbphilo);
 void						*routine(void *arg);
+bool						death_check(t_phidata *philo);

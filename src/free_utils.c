@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:15:57 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/02 13:34:04 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:00:46 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ void	free_philos(t_phidata *philo, int nbphilo)
 
 	i = 0;
 	// free_datas(philo, nbphilo);
+	pthread_mutex_destroy(&philo->data->print_mutex);
+	pthread_mutex_destroy(&philo->data->state_mutex);
 	free(philo->data);
 	while (i < nbphilo)
 	{
-		mutex_destroyer(&philo[i], 4);
+		mutex_destroyer(&philo[i], 2);
 		i++;
 	}
 	free(philo);
@@ -59,16 +61,10 @@ void	free_philos(t_phidata *philo, int nbphilo)
 
 int	mutex_destroyer(t_phidata *philo, int i)
 {
-	pthread_mutex_destroy(&philo->lastmeal_mutex);
+	pthread_mutex_destroy(&philo->meal_mutex);
 	if (i > 0)
 		pthread_mutex_destroy(&philo->leftfork_mutex);
-	if (i > 1)
-		pthread_mutex_destroy(&philo->rightfork_mutex);
-	if (i > 2)
-		pthread_mutex_destroy(&philo->nbmeal_mutex);
-	if (i > 3)
-		pthread_mutex_destroy(&philo->state_mutex);
-	if (i > 4)
-		pthread_mutex_destroy(&philo->print_mutex);
+	// if (i > 1)
+	// 	pthread_mutex_destroy(philo->rightfork_mutex);
 	return (-1);
 }
