@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:15:57 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/09 17:00:46 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/10 13:58:45 by lucasp           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	handle_error(char *str, t_phidata *philo, int err)
 {
-	int	i;
-
-	i = 0;
 	if (philo != NULL)
 	{
 		if (philo->data)

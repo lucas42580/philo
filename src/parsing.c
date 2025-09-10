@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/01 13:53:21 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:13:21 by lucasp           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int	check_arg(char **argv)
 	i = 1;
 	while (argv[i])
 	{
+		if (argv[i][0] == '\0')
+		{
+			handle_error("one or several args are empty\n", NULL, 1);
+			return (-1);
+		}
 		if (is_number(argv[i]) == -1)
 			return (-1);
 		nb = ft_atoi(argv[i]);

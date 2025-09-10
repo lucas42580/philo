@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:37:00 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/09 18:11:41 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:56:26 by lucasp           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,12 @@ int	eating_routine(t_phidata *philo)
 
 	if (philo->id % 2)
 	{
-		fork_taking(philo, &philo->leftfork_mutex, &philo->leftfork);
+		if (fork_taking(philo, &philo->leftfork_mutex, &philo->leftfork) == -1)
+			return (-1);
+		if (philo->one_philo == 1)
+			ft_wait(philo, philo->data->ttdie * 10);
+		if (death_check(philo) == 1)
+			return (-1);
 		// pthread_mutex_lock(&philo->leftfork_mutex);
 		// while (philo->leftfork == 0)
 		// {
@@ -85,7 +90,8 @@ int	eating_routine(t_phidata *philo)
 		// pthread_mutex_unlock(&philo->leftfork_mutex);
 		// if (print_lock(philo, "has taken a fork\n") == -1)
 		// 	return (-1);
-		fork_taking(philo, philo->rightfork_mutex, philo->rightfork);
+		if (fork_taking(philo, philo->rightfork_mutex, philo->rightfork) == -1)
+			return (-1);
 		// pthread_mutex_lock(philo->rightfork_mutex);
 		// while (*philo->rightfork == 0)
 		// {
@@ -102,8 +108,10 @@ int	eating_routine(t_phidata *philo)
 	}
 	else
 	{
-		fork_taking(philo, philo->rightfork_mutex, philo->rightfork);
-		fork_taking(philo, &philo->leftfork_mutex, &philo->leftfork);
+		if (fork_taking(philo, philo->rightfork_mutex, philo->rightfork) == -1)
+			return (-1);
+		if (fork_taking(philo, &philo->leftfork_mutex, &philo->leftfork) == -1)
+			return (-1);
 		// pthread_mutex_lock(philo->rightfork_mutex);
 		// while (*philo->rightfork == 0)
 		// {
@@ -130,6 +138,11 @@ int	eating_routine(t_phidata *philo)
 	}
 	if (print_lock(philo, "is eating\n") == -1)
 		return (-1);
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->nbmeal++;
+	gettimeofday(&time, NULL);
+	philo->lastmeal = get_time_ms(time);
+	pthread_mutex_unlock(&philo->meal_mutex);
 	if (ft_wait(philo, philo->data->tteat) == -1)
 		return (-1);
 	pthread_mutex_lock(&philo->leftfork_mutex);
@@ -139,9 +152,11 @@ int	eating_routine(t_phidata *philo)
 	*philo->rightfork = 1;
 	pthread_mutex_unlock(philo->rightfork_mutex);
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->nbmeal++;
-	gettimeofday(&time, NULL);
-	philo->lastmeal = get_time_ms(time);
+	if (philo->data->maxmeal != -1 && philo->nbmeal >= philo->data->maxmeal)
+	{
+		pthread_mutex_unlock(&philo->meal_mutex);
+		return (-1);
+	}
 	pthread_mutex_unlock(&philo->meal_mutex);
 	usleep(100);
 	return (0);
@@ -240,17 +255,25 @@ void	*threads_checking(void *arg)
 {
 	t_phidata	*philo;
 	int			i;
+	int			has_eaten;
 
 	philo = (t_phidata *)arg;
 	i = 0;
+	has_eaten = 0;
 	while (1)
 	{
 		while (i < philo->data->nbphilo)
 		{
 			pthread_mutex_lock(&philo[i].meal_mutex);
-			if ((philo[i].data->maxmeal != -1
-					&& philo[i].nbmeal >= philo[i].data->maxmeal)
-				|| is_dead(philo, i) == 1)
+			if (philo[i].data->maxmeal != -1
+				&& philo[i].nbmeal >= philo[i].data->maxmeal)
+			{
+				pthread_mutex_unlock(&philo[i].meal_mutex);
+				i++;
+				has_eaten++;
+			}
+			else if (i < philo->data->nbphilo && (is_dead(philo, i) == 1
+					|| has_eaten >= philo->data->nbphilo))
 			{
 				pthread_mutex_unlock(&philo[i].meal_mutex);
 				pthread_mutex_lock(&philo->data->state_mutex);
@@ -258,12 +281,16 @@ void	*threads_checking(void *arg)
 				pthread_mutex_unlock(&philo->data->state_mutex);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&philo[i].meal_mutex);
-			i++;
+			else
+			{
+				pthread_mutex_unlock(&philo[i].meal_mutex);
+				i++;
+			}
 			// usleep(100);
 		}
 		usleep(100);
 		i = 0;
+		has_eaten = 0;
 	}
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/09 18:08:07 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:42:43 by lucasp           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	init_philo(t_phidata *philo, int i)
 	}
 	else
 	{
+		philo[i].one_philo = 1;
 		philo[i].rightfork_mutex = &philo[i].leftfork_mutex;
 		philo[i].rightfork = 0;
 	}

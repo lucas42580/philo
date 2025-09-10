@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:41:58 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/09 18:06:53 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:44:30 by lucasp           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_phidata
 	long					lastmeal;
 	int						leftfork;
 	int						*rightfork;
+	bool					one_philo;
 	pthread_mutex_t			meal_mutex;
 	pthread_mutex_t			leftfork_mutex;
 	pthread_mutex_t			*rightfork_mutex;
