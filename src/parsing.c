@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/10 14:13:21 by lucasp           ###   ########.fr       */
+/*   Updated: 2025/09/14 16:12:10 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,14 @@ int	check_arg(char **argv)
 		if (is_number(argv[i]) == -1)
 			return (-1);
 		nb = ft_atoi(argv[i]);
-		if ((i == 1) && (nb < 0 || nb > 200))
+		if (i == 5 && nb == 0)
 		{
-			handle_error("number of philos must be between 1 and 200\n", NULL,
+			handle_error("number of maxmeal must be at least 1\n", NULL, 1);
+			return (-1);
+		}
+		if ((i == 1) && (nb < 1 || nb > 500))
+		{
+			handle_error("number of philos must be between 1 and 500\n", NULL,
 				1);
 			return (-1);
 		}

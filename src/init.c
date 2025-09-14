@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/10 14:42:43 by lucasp           ###   ########.fr       */
+/*   Updated: 2025/09/14 16:38:46 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ t_data	*get_data(char **argv)
 		data->maxmeal = ft_atoi(argv[5]);
 	else
 		data->maxmeal = -1;
-	if (data->nbphilo % 2 == 0)
-		data->is_even = 1;
-	else
-		data->is_even = 0;
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
 	{
 		free(data);
@@ -98,9 +94,8 @@ t_data	*get_data(char **argv)
 int	init_loop(t_phidata *philo, t_data *data)
 {
 	int	i;
+	int	stop;
 
-	// struct timeval	start;
-	// long			start_time;
 	i = 0;
 	while (i < data->nbphilo)
 	{
@@ -110,16 +105,26 @@ int	init_loop(t_phidata *philo, t_data *data)
 		i++;
 	}
 	i = 0;
-	// gettimeofday(&start, NULL);
-	// start_time = get_time_ms(start);
+	pthread_mutex_lock(&data->start_mutex);
 	while (i < data->nbphilo)
 	{
-		// philo[i].data->start_time = start_time;
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
+		// SEGFAULT SI PTHREAD_CREATE FAIL
 		{
-			free_philos(philo, philo->data->nbphilo);
-			return (handle_error("[Error] : phtread_create crashed\n", philo,
-					-1));
+			// free_philos(philo, philo->data->nbphilo);
+			pthread_mutex_lock(&philo->data->state_mutex);
+			philo->data->state = STOP;
+			pthread_mutex_unlock(&philo->data->state_mutex);
+			ft_putstr_fd("[Error] : phtread_create crashed\n", 2);
+			stop = i;
+			i = 0;
+			while (i < stop)
+			{
+				pthread_join(philo[i].thread, NULL);
+				i++;
+			}
+			free_philos(philo, stop);
+			return (-1);
 		}
 		i++;
 	}

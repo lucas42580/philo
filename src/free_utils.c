@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasp <lucasp@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:15:57 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/10 13:58:45 by lucasp           ###   ########.fr       */
+/*   Updated: 2025/09/14 12:10:16 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_philos(t_phidata *philo, int nbphilo)
 	// free_datas(philo, nbphilo);
 	pthread_mutex_destroy(&philo->data->print_mutex);
 	pthread_mutex_destroy(&philo->data->state_mutex);
+	pthread_mutex_destroy(&philo->data->start_mutex);
 	free(philo->data);
 	while (i < nbphilo)
 	{
@@ -61,7 +62,5 @@ int	mutex_destroyer(t_phidata *philo, int i)
 	pthread_mutex_destroy(&philo->meal_mutex);
 	if (i > 0)
 		pthread_mutex_destroy(&philo->leftfork_mutex);
-	// if (i > 1)
-	// 	pthread_mutex_destroy(philo->rightfork_mutex);
 	return (-1);
 }

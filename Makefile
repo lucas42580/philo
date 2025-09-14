@@ -6,7 +6,7 @@
 #    By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 13:12:14 by lpaysant          #+#    #+#              #
-#    Updated: 2025/09/01 13:54:08 by lpaysant         ###   ########.fr        #
+#    Updated: 2025/09/11 12:07:13 by lpaysant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,9 @@ SRC = \
 	$(SRCDIR)/free_utils.c \
 	$(SRCDIR)/time_utils.c \
 	$(SRCDIR)/init.c \
-	$(SRCDIR)/parsing.c
+	$(SRCDIR)/parsing.c \
+	$(SRCDIR)/monitor.c \
+	$(SRCDIR)/routine_utils.c
 
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 
