@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/14 16:12:10 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:09:47 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ static int	is_number(char *arg)
 	return (0);
 }
 
+int	check_nb(int nb, int i)
+{
+	if (i == 5 && nb == 0)
+	{
+		handle_error("number of maxmeal must be at least 1\n", NULL, 1);
+		return (-1);
+	}
+	if ((i == 1) && (nb < 1 || nb > 500))
+	{
+		handle_error("number of philos must be between 1 and 500\n", NULL, 1);
+		return (-1);
+	}
+	if (i > 1 && nb < 0)
+	{
+		handle_error("all args must be positive ints\n", NULL, 1);
+		return (-1);
+	}
+	return (0);
+}
+
 int	check_arg(char **argv)
 {
 	int	i;
@@ -46,22 +66,8 @@ int	check_arg(char **argv)
 		if (is_number(argv[i]) == -1)
 			return (-1);
 		nb = ft_atoi(argv[i]);
-		if (i == 5 && nb == 0)
-		{
-			handle_error("number of maxmeal must be at least 1\n", NULL, 1);
+		if (check_nb(nb, i) == -1)
 			return (-1);
-		}
-		if ((i == 1) && (nb < 1 || nb > 500))
-		{
-			handle_error("number of philos must be between 1 and 500\n", NULL,
-				1);
-			return (-1);
-		}
-		if (i > 1 && nb < 0)
-		{
-			handle_error("all args must be positive ints\n", NULL, 1);
-			return (-1);
-		}
 		i++;
 	}
 	return (0);

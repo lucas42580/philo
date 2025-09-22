@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:15:57 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/14 12:10:16 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:22:02 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	free_philos(t_phidata *philo, int nbphilo)
 	int	i;
 
 	i = 0;
-	// free_datas(philo, nbphilo);
 	pthread_mutex_destroy(&philo->data->print_mutex);
 	pthread_mutex_destroy(&philo->data->state_mutex);
 	pthread_mutex_destroy(&philo->data->start_mutex);

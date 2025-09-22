@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:41:58 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/14 17:05:15 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:36:43 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int							main(int argc, char **argv);
 t_data						*get_data(char **argv);
 int							init_loop(t_phidata *philo, t_data *data);
 int							init_philo(t_phidata *philo, int i);
+int							data_mutex_init(t_data *data);
 int							mutex_init(t_phidata *philo, int i);
 int							check_arg(char **argv);
 

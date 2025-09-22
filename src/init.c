@@ -6,22 +6,11 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/14 16:38:46 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:38:03 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-int	mutex_init(t_phidata *philo, int i)
-{
-	if (pthread_mutex_init(&philo[i].meal_mutex, NULL) != 0)
-		return (mutex_destroyer(philo, 0));
-	if (pthread_mutex_init(&philo[i].leftfork_mutex, NULL) != 0)
-		return (mutex_destroyer(philo, 1));
-	// if (pthread_mutex_init(philo[i].rightfork_mutex, NULL) != 0)
-	// 	return (mutex_destroyer(philo, 2));
-	return (0);
-}
 
 int	init_philo(t_phidata *philo, int i)
 {
@@ -43,7 +32,6 @@ int	init_philo(t_phidata *philo, int i)
 		philo[i].rightfork_mutex = &philo[i].leftfork_mutex;
 		philo[i].rightfork = 0;
 	}
-	// philo->data = NULL;
 	if (mutex_init(philo, i) == -1)
 	{
 		free_philos(philo, i);
@@ -70,28 +58,12 @@ t_data	*get_data(char **argv)
 		data->maxmeal = ft_atoi(argv[5]);
 	else
 		data->maxmeal = -1;
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-	{
-		free(data);
+	if (data_mutex_init(data) == -1)
 		return (NULL);
-	}
-	if (pthread_mutex_init(&data->state_mutex, NULL) != 0)
-	{
-		pthread_mutex_destroy(&data->print_mutex);
-		free(data);
-		return (NULL);
-	}
-	if (pthread_mutex_init(&data->start_mutex, NULL) != 0)
-	{
-		pthread_mutex_destroy(&data->print_mutex);
-		pthread_mutex_destroy(&data->state_mutex);
-		free(data);
-		return (NULL);
-	}
 	return (data);
 }
 
-int	init_loop(t_phidata *philo, t_data *data)
+int	create_and_launch_threads(t_data *data, t_phidata *philo)
 {
 	int	i;
 	int	stop;
@@ -99,19 +71,8 @@ int	init_loop(t_phidata *philo, t_data *data)
 	i = 0;
 	while (i < data->nbphilo)
 	{
-		philo[i].data = data;
-		if (init_philo(philo, i) == -1)
-			return (-1);
-		i++;
-	}
-	i = 0;
-	pthread_mutex_lock(&data->start_mutex);
-	while (i < data->nbphilo)
-	{
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
-		// SEGFAULT SI PTHREAD_CREATE FAIL
 		{
-			// free_philos(philo, philo->data->nbphilo);
 			pthread_mutex_lock(&philo->data->state_mutex);
 			philo->data->state = STOP;
 			pthread_mutex_unlock(&philo->data->state_mutex);
@@ -128,5 +89,23 @@ int	init_loop(t_phidata *philo, t_data *data)
 		}
 		i++;
 	}
+	return (0);
+}
+
+int	init_loop(t_phidata *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbphilo)
+	{
+		philo[i].data = data;
+		if (init_philo(philo, i) == -1)
+			return (-1);
+		i++;
+	}
+	pthread_mutex_lock(&data->start_mutex);
+	if (create_and_launch_threads(data, philo) == -1)
+		return (-1);
 	return (0);
 }
