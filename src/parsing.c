@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 13:29:53 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:19:38 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static int	is_number(char *arg)
 	{
 		if (arg[i] < '0' || arg[i] > '9')
 		{
-			handle_error("[Error] : All args must be positive integers\n", NULL,
-				1);
+			handle_error("All args must be positive integers\n", NULL, 1);
 			return (-1);
 		}
 		i++;

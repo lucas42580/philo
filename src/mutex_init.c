@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:35:27 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 11:43:30 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:27:42 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	data_mutex_init(t_data *data)
 	return (0);
 }
 
-int	mutex_init(t_phidata *philo, int i)
+int	philo_mutex_init(t_phidata *philo, int i)
 {
 	if (pthread_mutex_init(&philo[i].meal_mutex, NULL) != 0)
 	{

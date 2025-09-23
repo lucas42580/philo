@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 13:40:11 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:27:34 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	init_philo(t_phidata *philo, int i)
 		philo[i].rightfork_mutex = &philo[i].leftfork_mutex;
 		philo[i].rightfork = 0;
 	}
-	if (mutex_init(philo, i) == -1)
+	if (philo_mutex_init(philo, i) == -1)
 	{
 		free_philos(philo, i);
 		return (-1);

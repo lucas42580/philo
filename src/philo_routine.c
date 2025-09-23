@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:17:14 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 12:16:31 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:25:31 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	eat_and_update(t_phidata *philo)
 	if (ft_wait(philo, philo->data->tteat) == -1)
 		return (-1);
 	pthread_mutex_lock(&philo->leftfork_mutex);
-	philo->leftfork = 1;
+	philo->leftfork = true;
 	pthread_mutex_unlock(&philo->leftfork_mutex);
 	pthread_mutex_lock(philo->rightfork_mutex);
-	*philo->rightfork = 1;
+	*philo->rightfork = true;
 	pthread_mutex_unlock(philo->rightfork_mutex);
 	pthread_mutex_lock(&philo->meal_mutex);
 	if (philo->data->maxmeal != -1 && philo->nbmeal >= philo->data->maxmeal)
@@ -77,7 +77,7 @@ static int	eating_routine(t_phidata *philo)
 	{
 		if (fork_taking(philo, &philo->leftfork_mutex, &philo->leftfork) == -1)
 			return (-1);
-		if (philo->one_philo == 1)
+		if (philo->one_philo == true)
 		{
 			if (ft_wait(philo, philo->data->ttdie + 100) == -1)
 				return (-1);

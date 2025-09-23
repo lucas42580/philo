@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:41:58 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 13:49:00 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:27:49 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ struct						s_phidata
 t_data						*get_data(char **argv);
 int							init_loop(t_phidata *philo, t_data *data);
 int							data_mutex_init(t_data *data);
-int							mutex_init(t_phidata *philo, int i);
+int							philo_mutex_init(t_phidata *philo, int i);
 int							check_arg(char **argv);
 
 int							ft_atoi(const char *nptr);
