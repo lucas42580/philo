@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/22 17:09:47 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:29:53 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ int	check_nb(int nb, int i)
 {
 	if (i == 5 && nb == 0)
 	{
-		handle_error("number of maxmeal must be at least 1\n", NULL, 1);
+		handle_error("Number of maxmeal must be at least 1\n", NULL, 1);
 		return (-1);
 	}
 	if ((i == 1) && (nb < 1 || nb > 500))
 	{
-		handle_error("number of philos must be between 1 and 500\n", NULL, 1);
+		handle_error("Number of philos must be between 1 and 500\n", NULL, 1);
 		return (-1);
 	}
 	if (i > 1 && nb < 0)
 	{
-		handle_error("all args must be positive ints\n", NULL, 1);
+		handle_error("All args must be positive ints\n", NULL, 1);
 		return (-1);
 	}
 	return (0);
@@ -60,7 +60,7 @@ int	check_arg(char **argv)
 	{
 		if (argv[i][0] == '\0')
 		{
-			handle_error("one or several args are empty\n", NULL, 1);
+			handle_error("One or several args are empty\n", NULL, 1);
 			return (-1);
 		}
 		if (is_number(argv[i]) == -1)

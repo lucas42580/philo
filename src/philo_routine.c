@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:17:14 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/22 16:21:20 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 12:16:31 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	*routine(void *arg)
 	philo = (t_phidata *)arg;
 	pthread_mutex_lock(&philo->data->start_mutex);
 	pthread_mutex_unlock(&philo->data->start_mutex);
+	if (death_check(philo) == 1)
+		return (NULL);
 	print_lock(philo, "is thinking\n");
 	if (philo->id % 2 == 0)
 		if (ft_wait(philo, philo->data->tteat) == -1)
