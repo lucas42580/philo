@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:37:00 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/24 13:23:04 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:22:19 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (handle_error("There needs to be 4 or 5 arguments\n", NULL, 1));
 	if (check_arg(argv) == -1)
-		return (2);
+		return (1);
 	philo = ft_calloc(ft_atoi(argv[1]), sizeof(t_phidata));
 	if (!philo)
 		return (handle_error("[Error] : Malloc failure\n", NULL, 2));
@@ -45,10 +45,10 @@ int	main(int argc, char **argv)
 	if (!data)
 	{
 		free(philo);
-		return (2);
+		return (1);
 	}
 	if (init_loop(philo, data) == -1)
-		return (2);
+		return (1);
 	start_and_wait_philos(philo, data);
 	free_philos(philo, philo->data->nbphilo);
 	return (0);
