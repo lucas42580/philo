@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 12:05:15 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 13:28:51 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:57:16 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	death_check(t_phidata *philo)
 	return (0);
 }
 
-int	print_lock(t_phidata *philo, char *str)
+int	print_lock(t_phidata *philo, char *str, bool is_dead)
 {
 	long			time_ms;
 	struct timeval	time;
@@ -32,10 +32,13 @@ int	print_lock(t_phidata *philo, char *str)
 	pthread_mutex_lock(&philo->data->print_mutex);
 	gettimeofday(&time, NULL);
 	time_ms = get_time_ms(time) - philo->data->start_time;
-	if (death_check(philo) == 1)
+	if (is_dead == false)
 	{
-		pthread_mutex_unlock(&philo->data->print_mutex);
-		return (-1);
+		if (death_check(philo) == true)
+		{
+			pthread_mutex_unlock(&philo->data->print_mutex);
+			return (-1);
+		}
 	}
 	printf("%ld %d %s", time_ms, philo->id, str);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -52,7 +55,7 @@ int	ft_wait(t_phidata *philo, long time)
 	(void)philo;
 	while (get_time_ms(end) - get_time_ms(start) < time)
 	{
-		if (death_check(philo) == 1)
+		if (death_check(philo) == true)
 			return (-1);
 		gettimeofday(&end, NULL);
 		usleep(600);

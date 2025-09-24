@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 14:19:38 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 13:23:39 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_number(char *arg)
 	return (0);
 }
 
-int	check_nb(int nb, int i)
+static int	check_nb(int nb, int i)
 {
 	if (i == 5 && nb == 0)
 	{

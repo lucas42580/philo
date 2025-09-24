@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:17:14 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 14:25:31 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:57:34 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static int	sleeping_routine(t_phidata *philo)
 {
-	print_lock(philo, "is sleeping\n");
+	print_lock(philo, "is sleeping\n", 0);
 	if (ft_wait(philo, philo->data->ttsleep) == -1)
 		return (-1);
-	print_lock(philo, "is thinking\n");
+	print_lock(philo, "is thinking\n", 0);
 	if (philo->data->nbphilo % 2 != 0
 		&& philo->data->ttsleep <= philo->data->tteat)
 		ft_wait(philo, philo->data->tteat);
@@ -28,7 +28,7 @@ static int	eat_and_update(t_phidata *philo)
 {
 	struct timeval	time;
 
-	if (print_lock(philo, "is eating\n") == -1)
+	if (print_lock(philo, "is eating\n", 0) == -1)
 		return (-1);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->nbmeal++;
@@ -59,14 +59,14 @@ static int	fork_taking(t_phidata *philo, pthread_mutex_t *mutex, bool *fork)
 	while (*fork == false)
 	{
 		pthread_mutex_unlock(mutex);
-		if (death_check(philo) == 1)
+		if (death_check(philo) == true)
 			return (-1);
 		usleep(400);
 		pthread_mutex_lock(mutex);
 	}
 	*fork = false;
 	pthread_mutex_unlock(mutex);
-	if (print_lock(philo, "has taken a fork\n") == -1)
+	if (print_lock(philo, "has taken a fork\n", 0) == -1)
 		return (-1);
 	return (0);
 }
@@ -104,9 +104,9 @@ void	*routine(void *arg)
 	philo = (t_phidata *)arg;
 	pthread_mutex_lock(&philo->data->start_mutex);
 	pthread_mutex_unlock(&philo->data->start_mutex);
-	if (death_check(philo) == 1)
+	if (death_check(philo) == true)
 		return (NULL);
-	print_lock(philo, "is thinking\n");
+	print_lock(philo, "is thinking\n", 0);
 	if (philo->id % 2 == 0)
 		if (ft_wait(philo, philo->data->tteat) == -1)
 			return (NULL);

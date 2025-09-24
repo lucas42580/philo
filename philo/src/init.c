@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:49:30 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 14:27:34 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:54:08 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static int	create_and_launch_threads(t_data *data, t_phidata *philo)
 			pthread_mutex_unlock(&data->state_mutex);
 			pthread_mutex_unlock(&data->start_mutex);
 			wait_for_philos(philo, i);
+			return (-1);
 		}
 		i++;
 	}

@@ -6,13 +6,13 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:37:00 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 13:35:06 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 13:23:04 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	start_and_wait_philos(t_phidata *philo, t_data *data)
+static void	start_and_wait_philos(t_phidata *philo, t_data *data)
 {
 	int				i;
 	struct timeval	start;

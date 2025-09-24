@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:41:58 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/23 14:27:49 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:56:32 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ long						get_time_ms(struct timeval time);
 void						*routine(void *arg);
 bool						death_check(t_phidata *philo);
 void						threads_checking(t_phidata *philo);
-int							print_lock(t_phidata *philo, char *str);
+int							print_lock(t_phidata *philo, char *str,
+								bool is_dead);
 int							ft_wait(t_phidata *philo, long time);
