@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:17:14 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/24 11:57:34 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 19:04:49 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	eat_and_update(t_phidata *philo)
 	if (print_lock(philo, "is eating\n", 0) == -1)
 		return (-1);
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->nbmeal++;
 	gettimeofday(&time, NULL);
 	philo->lastmeal = get_time_ms(time);
 	pthread_mutex_unlock(&philo->meal_mutex);
@@ -44,11 +43,7 @@ static int	eat_and_update(t_phidata *philo)
 	*philo->rightfork = true;
 	pthread_mutex_unlock(philo->rightfork_mutex);
 	pthread_mutex_lock(&philo->meal_mutex);
-	if (philo->data->maxmeal != -1 && philo->nbmeal >= philo->data->maxmeal)
-	{
-		pthread_mutex_unlock(&philo->meal_mutex);
-		return (-1);
-	}
+	philo->nbmeal++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	return (0);
 }

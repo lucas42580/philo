@@ -6,7 +6,7 @@
 /*   By: lpaysant <lpaysant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:52:13 by lpaysant          #+#    #+#             */
-/*   Updated: 2025/09/24 13:23:39 by lpaysant         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:42:37 by lpaysant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_nb(int nb, int i)
 	}
 	if (i > 1 && nb < 0)
 	{
-		handle_error("All args must be positive ints\n", NULL, 1);
+		handle_error("All args must be positive integers\n", NULL, 1);
 		return (-1);
 	}
 	return (0);
